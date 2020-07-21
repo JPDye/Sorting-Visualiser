@@ -66,9 +66,7 @@ if __name__ == "__main__":
         if GRAPHIC_TYPE == "bars":
             V_COLOURS = 1
         else:
-            V_COLOURS = round(
-                RESCALE_Y / (RESCALE_X / NUM_COLOURS)
-            )  # Maintain square pixel dimension during image upscaling.
+            V_COLOURS = round(RESCALE_Y / (RESCALE_X / NUM_COLOURS))  # Maintain square pixel dimension during image upscaling.
 
         # Turn input hex string into rgb tuple and create Colour objects.
         start_colour = Colour(*hex_to_rgb(COLOUR_1), scale_rgb=True)
