@@ -19,9 +19,9 @@ Replace <algo_name> with one of the following:
 - merge_sort (set NUM_COLOURS to power of 2 for best results)
 - radix_sort_lsd (set NUM_COLOURS to multiple of 100 for best results)
 
-Two required modules - ColCon and GradientCreator - have not been uploaded to GitHub yet. Project is still usable. Just comment out lines 91-116 in main.py and feed a numpy array of pixels in the visualiser on line 112 in place of the pixels variable.
+Program can either create a gradient using two of my own modules - ColCon and GradientCreator - or take an image as input. ColCon and GradientCreator haven't been uploaded yet so only option is to give image as input. Place Image in img/input and set the USE_IMAGE flag to True and the IMAGE_NAME variable to the name of the image.
 
 ### To Do
 - Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
-- Add ColCon and GradientCreator to GitHub. Program relies on these tools to create perceptually unfirom gradients. Cleaning code up first.
-- Rewrite '__replace_with_integers()' function to allow passing images as well as gradients.
+- Add ColCon and GradientCreator to GitHub. Program relies on these tools to create perceptually unfirom gradients.
+- Provide matplotlib gradients, so that users dont have to rely on my modules. Virdis is priority for colour blind support.
