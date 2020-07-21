@@ -2,13 +2,7 @@
 Provides an interface for generating sorting visualisations.
 
 TODO:
-GIF_DURATION variable is useless. Changes to the library for writing gifsmeans my gifs now last
-as long as they want to. I'll get round to fixing it at some point I suppose.
-
 Creating GIFs can be a hassle. Need to have proper argument parsing, or maybe just a full CLI.
-
-Add a gradient preview option. Having to wait for a GIF to be created just to realise the gradient
-looks awful is annoying.
 
 Provide support for multi-colour input when creating gradients. Previously supported this but
 removed it due to the code being messy. I'll reimplement it in a cleaner way when I find the time.
@@ -35,7 +29,7 @@ from viz.visualiser import SortingVisualiser
 if __name__ == "__main__":
     # -------------- Initialise Variables -------------- #
     USE_IMAGE = True  # Use an image or gradient as input?
-    IMAGE_NAME = "starry_night_small.jpg"  # Path to image if we use one
+    IMAGE_NAME = "starry_night.jpg"  # Path to image if we use one
 
     COLOUR_1 = "#270561"  # starting colour
     COLOUR_2 = "#c78d28"  # ending colour
@@ -46,11 +40,11 @@ if __name__ == "__main__":
     RANDOM = True  # Randomise the image?
     REVERSE = False  # Reverse the image?
     ALGORITHM = sys.argv[1]  # Algorithm to use
-    GIF_DURATION = 10  # Duration of GIF
+    GIF_DURATION = 5  # Duration of GIF
     SCALE = False  # Does image need to be upscaled?
     RESCALE_X = 600  # x res of GIF
-    RESCALE_Y = 600  # y res of GIF
-    FPS = 24  # FPS of GIF
+    RESCALE_Y = 474  # y res of GIF
+    FPS = 16  # FPS of GIF
     FRAME_DELAY = 1 / FPS  # Delay between each GIF frame
     TOTAL_FRAMES = FPS * GIF_DURATION
 
