@@ -3,7 +3,7 @@ Visualise the sorting of randomised colour gradients.
 
 # Usage
 
-python ./main <algo_name>
+> python ./main <algo_name>
 
 choose from:
   - bubble_sort
