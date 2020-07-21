@@ -14,7 +14,7 @@ Replace <algo_name> with one of the following:
 - merge_sort (set NUM_COLOURS to power of 2 for best results)
 - radix_sort_lsd (set NUM_COLOURS to multiple of 100 for best results)
 
-Two required modules - ColCon and GradientCreator - have not been uploaded to GitHub yet. Project is still usable. Just Comment out lines 91-116 in main.py and feed a numpy array of pixels in the visualiser on line 112 in place of the pixels variable.
+Two required modules - ColCon and GradientCreator - have not been uploaded to GitHub yet. Project is still usable. Just comment out lines 91-116 in main.py and feed a numpy array of pixels in the visualiser on line 112 in place of the pixels variable.
 
 ### To Do
 - Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
