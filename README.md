@@ -25,3 +25,4 @@ Program can either create a gradient using two of my own modules - ColCon and Gr
 - Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
 - Add ColCon and GradientCreator to GitHub. Program relies on these tools to create perceptually unfirom gradients.
 - Provide matplotlib gradients, so that users dont have to rely on my modules. Virdis is priority for colour blind support.
+- Change QuickSort to iterative QuickSort. 
