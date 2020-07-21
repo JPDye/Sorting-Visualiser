@@ -17,6 +17,7 @@ Provide error checking when using LCHab colour space. Shape of colour volume res
 unsupported RGB values when interpolating. As is, you just end up with ugly streaks in the gradient.
 """
 
+import random
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -28,81 +29,13 @@ from PIL import Image, ImageDraw
 from colcon.colour import Colour
 from gradient.gradient_class import Gradient
 from gradient.utilities import create_pixel_gradient
+from viz.utilities import hex_to_rgb, progress_bar, progress_complete, scale_frames_nn
 from viz.visualiser import SortingVisualiser
-
-
-def add_header(image, sorting_method, start_colour, end_colour):
-    """
-    Add label to GIF with the sorting method and gradient colours displayed.
-    """
-    draw = ImageDraw.draw(image)
-
-    start_text = str(start_colour)
-    start_text_size = draw.textsize(start_text)
-    start_text_x_pos = 5
-
-    end_text = str(end_colour)
-    end_text_size = draw.textsize(end_text)
-    end_test_x_pos = image.size[0] - end_text_size[0] - 5
-
-    sm_text = sorting_method
-    sm_text_size = draw.textsize(sm_text)
-    sm_text_x_pos = (image.size[0] - sm_text_size[0]) / 2
-
-    draw.text((start_text_x_pos, 2), start_text, (255, 255, 255))
-    draw.text((end_test_x_pos, 2), end_text, (255, 255, 255))
-    draw.text((sm_text_x_pos, 2), sm_text, (255, 255, 255))
-
-
-def hex_to_rgb(hex_code):
-    """
-    Convert hex values into RGB.
-    """
-    rgb_tuple = []
-    hex_code = hex_code.lstrip("#")
-    for i in range(0, len(hex_code), 2):
-        rgb_tuple.append(int(hex_code[i:i + 2], 16))
-    return rgb_tuple
-
-# Scaling takes time so provide some visual feedback
-def progress_bar(text, iteration, max_iteration, length=40):
-    percentage = (100 * iteration / max_iteration)
-    completed = int(length * iteration / max_iteration)
-    bar = '█' * completed + "-" * (length - completed)
-
-    print("\r{}|{}|".format(text, bar), end='\r')
-
-def progress_complete(text, length=40):
-    bar = '█' * length
-    print("\r{}|{}|".format(text, bar))
-
-
-# Upscaling Algorithm -- Good for scaling pixel art and similar items
-def nearest_neighbour(image, x_res, y_res):
-    scaled_image = np.zeros((y_res, x_res, 3), dtype=np.uint8)
-    for y in range(y_res):
-        source_y = int(y / y_res * image.shape[0])
-        for x in range(x_res):
-            source_x = int(x / x_res * image.shape[1])
-            scaled_image[y, x, :] = image[source_y, source_x, :]
-    return scaled_image
-
-def scale_frames_nn(frames, x_res, y_res):
-    """
-    Apply nearest neighbour scaling to every frame of a GIF and Display progress.
-    """
-    scaled_frames = []
-    for i in range(len(frames)):
-        scaled_frames.append(nearest_neighbour(frames[i], x_res, y_res))
-        progress_bar("Scaling GIF:\t ", i, len(frames))
-    progress_complete("Scaling GIF\t ")
-    return scaled_frames
-
 
 if __name__ == "__main__":
     # -------------- Initialise Variables -------------- #
-    USE_IMAGE = False   # Use an image or gradient as input?
-    IMAGE_PATH = "img.jpg"  # Path to image if we use one
+    USE_IMAGE = True  # Use an image or gradient as input?
+    IMAGE_NAME = "starry_night_small.jpg"  # Path to image if we use one
 
     COLOUR_1 = "#270561"  # starting colour
     COLOUR_2 = "#c78d28"  # ending colour
@@ -113,19 +46,18 @@ if __name__ == "__main__":
     RANDOM = True  # Randomise the image?
     REVERSE = False  # Reverse the image?
     ALGORITHM = sys.argv[1]  # Algorithm to use
-    GIF_DURATION = 6  # Duration of GIF
-    SCALE = True
+    GIF_DURATION = 10  # Duration of GIF
+    SCALE = False  # Does image need to be upscaled?
     RESCALE_X = 600  # x res of GIF
-    RESCALE_Y = 200  # y res of GIF
+    RESCALE_Y = 600  # y res of GIF
     FPS = 24  # FPS of GIF
-    FRAME_DELAY = 40  # Delay between each GIF frame
-
+    FRAME_DELAY = 1 / FPS  # Delay between each GIF frame
     TOTAL_FRAMES = FPS * GIF_DURATION
-
 
     # Load image and turn into numpy array if we are using one as input
     if USE_IMAGE:
-        img = Image.open(IMAGE_PATH)
+        img_path = Path(__file__).resolve().parent.parent / "img" / "input" / IMAGE_NAME
+        img = Image.open(img_path)
         pixels = np.array(img)
 
     # Generate colour gradient used as input to the visualiser
@@ -134,9 +66,7 @@ if __name__ == "__main__":
         if GRAPHIC_TYPE == "bars":
             V_COLOURS = 1
         else:
-            V_COLOURS = round(
-                RESCALE_Y / (RESCALE_X / NUM_COLOURS)
-            )  # Maintain square pixel dimension during image upscaling.
+            V_COLOURS = round(RESCALE_Y / (RESCALE_X / NUM_COLOURS))  # Maintain square pixel dimension during image upscaling.
 
         # Turn input hex string into rgb tuple and create Colour objects.
         start_colour = Colour(*hex_to_rgb(COLOUR_1), scale_rgb=True)
@@ -150,9 +80,9 @@ if __name__ == "__main__":
         # Preview gradient and exit program if flag is set
         PREVIEW_GRADIENT = False
         if PREVIEW_GRADIENT:
-            Image.fromarray(nearest_neighbour(pixels, RESCALE_X, RESCALE_Y)).show()
+            img = Image.fromarray(pixels)
+            img.resize((RESCALE_X, RESCALE_Y), Image.NEAREST).show()
             sys.exit()
-
 
     # Create our file diferectory (if it doesn't exist) and create file name.
     path = Path(__file__).resolve().parent.parent / "img" / ALGORITHM
@@ -173,4 +103,4 @@ if __name__ == "__main__":
     # Scale to desired resolution and save
     if SCALE:
         frames = scale_frames_nn(frames, RESCALE_X, RESCALE_Y)
-    imageio.mimsave(path, frames)
+    imageio.mimsave(path, frames, duration=FRAME_DELAY)

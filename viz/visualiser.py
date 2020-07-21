@@ -1,4 +1,5 @@
 from viz import algorithms as algos
+from viz.utilities import progress_bar, progress_complete
 
 from PIL import Image
 import numpy as np
@@ -29,15 +30,17 @@ class SortingVisualiser:
     def __replace_with_integers(self):
         """
         Replaces pixels of image with consecutive integers. Creates dictionary for reverting to normal.
-        Needs modification to provide support for actual images. I.E. position 1 on each row can refer to
-        a pixel of a different colour.
         """
         replaced = np.zeros((self.rows, self.columns))
-        replace_dict = [{}] * self.columns              # Create dict for reverting changes later
-        for row in range(self.rows):
-            for column in range(self.columns):
-                replace_dict[row][column] = self.original[row, column, :]
-                replaced[row][column] = column
+        replace_dict = []
+
+        for i in range(self.rows):
+            temp_dict = {}
+            for j in range(self.columns):
+                temp_dict[j] = self.original[i, j]
+                replaced[i, j] = j
+            replace_dict.append(temp_dict)
+
         return replaced, replace_dict
 
     def _replace_with_pixels(self):
@@ -46,10 +49,12 @@ class SortingVisualiser:
         pixel values.
         """
         pixel_array = np.zeros((self.rows, self.columns, 3), dtype="uint8")
+
         for row in range(self.rows):
             for column in range(self.columns):
-                pixel = self.replace_dict[row][self.replaced[row, column]]
-                pixel_array[row, column, :] = pixel
+                key = int(self.replaced[row, column])
+                pixel = self.replace_dict[row][key]
+                pixel_array[row, column] = pixel
         return pixel_array
 
     def __reverse_image(self):
@@ -68,7 +73,9 @@ class SortingVisualiser:
             row = self.replaced[row_index, :].copy()
             temp_swaps = self.sorting_methods[sorting_method](row)
             self.swaps.append(temp_swaps)
-            self.max_swaps = len(self.swaps[-1]) if len(self.swaps[-1]) > self.max_swaps else self.max_swaps
+            self.max_swaps = max(len(self.swaps[-1]), self.max_swaps)
+            progress_bar("Sorting GIF:\t", row_index, self.rows)
+        progress_complete("Sorting GIF:\t")
 
     def visualise(self, num_frames, sort_method="bubble_sort"):
         """
@@ -89,13 +96,11 @@ class SortingVisualiser:
         after each pass. To visualise this we simply slowly replace the current array with elements
         from the snapshot of the array.
         """
-
         if not self.swaps:
             self.sort(sort_method)
 
         num_frames -= 1
         frames = [self._replace_with_pixels()]
-
         # Determine if an in-place sorting algorithm was used
         if type(self.swaps[0][0]) is tuple:
             swap_num = 0
@@ -113,6 +118,8 @@ class SortingVisualiser:
                     self.__swap_pixels(row, swap_num, swap_num+swap_step+extra)
                 swap_num += swap_step + extra
                 frames.append(self._replace_with_pixels())
+                progress_bar("Creating GIF:\t", swap_num / self.max_swaps, self.max_swaps)
+            progress_complete("Creating Gif:\t")
         else:
             pos = 0
             swap_num = 0
@@ -141,6 +148,8 @@ class SortingVisualiser:
                 swap_num += swap_step + extra
                 pos = pos_end
                 frames.append(self._replace_with_pixels())
+                progress_bar("Creating GIF:\t", swap_num, self.max_swaps)
+            progress_complete("Creating Gif:\t")
         return frames
 
 
