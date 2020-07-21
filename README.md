@@ -11,13 +11,9 @@ Replace <algo_name> with one of the following:
 - insertion_sort
 - quick_sort
 - heap_sort
-- merge_sort
-- radix_sort_lsd
- 
+- merge_sort (set NUM_COLOURS to power of 2 for best results)
+- radix_sort_lsd (set NUM_COLOURS to multiple of 100 for best results)
 
-If choosing to use merge_sort set number of colours to a power of 2 for best looking results.
-If using radix_sort set number of colours to multiple of 100 for best looking result
- 
 ### To Do
 - Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
 - Add ColCon and GradientCreator to GitHub. Program relies on these tools to create perceptually unfirom gradients. Cleaning code up first.
