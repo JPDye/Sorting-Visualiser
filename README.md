@@ -21,4 +21,5 @@ Replace <algo_name> with one of the following:
 
 
 > Running without ColCon and GradientCreator
+
 Project is still usable, you just wont be able to create perceptually uniform gradients for the visualiser. Just comment out lines 91-116 in main.py and feed a numpy array of pixels into the visualiser on line 112 in place of the pixels variable.
