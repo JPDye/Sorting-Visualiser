@@ -27,6 +27,11 @@ class SortingVisualiser:
         }
 
     def __replace_with_integers(self):
+        """
+        Replaces pixels of image with consecutive integers. Creates dictionary for reverting to normal.
+        Needs modification to provide support for actual images. I.E. position 1 on each row can refer to
+        a pixel of a different colour.
+        """
         replaced = np.zeros((self.rows, self.columns))
         replace_dict = [{}] * self.columns              # Create dict for reverting changes later
         for row in range(self.rows):
@@ -36,6 +41,10 @@ class SortingVisualiser:
         return replaced, replace_dict
 
     def _replace_with_pixels(self):
+        """
+        Use the replace_dict to convert image_array from consecutive integers back to their original
+        pixel values.
+        """
         pixel_array = np.zeros((self.rows, self.columns, 3), dtype="uint8")
         for row in range(self.rows):
             for column in range(self.columns):
@@ -50,15 +59,9 @@ class SortingVisualiser:
         for i in range(self.rows):
             np.random.shuffle(self.replaced[i, :])
 
-    def __in_place_algo_pixel_swap(self, row, start, end):          # Swap pixels for an in place algorithms
+    def __swap_pixels(self, row, start, end):          # Swap pixels for an in place algorithms
         for i, j in self.swaps[row][start:end]:
             self.replaced[row, i], self.replaced[row, j] = self.replaced[row, j], self.replaced[row, i]
-
-    def __out_place_algo_pixel_swap(self, row, pos, start, step):   # Swap pixels for an out of place algorithm
-        pass
-
-    def new_image(self, image, randomise=True):
-        self.__init__(image, randomise)
 
     def sort(self, sorting_method):
         for row_index in range(self.rows):
@@ -68,26 +71,46 @@ class SortingVisualiser:
             self.max_swaps = len(self.swaps[-1]) if len(self.swaps[-1]) > self.max_swaps else self.max_swaps
 
     def visualise(self, num_frames, sort_method="bubble_sort"):
+        """
+        Use the data in self.swaps to show the sorting process. The number of frames determines
+        how much data from self.swaps is used to modify the image array per frame. More frames means
+        smaller chunks which results in a smoother final result.
+
+        There are two visualisation methods. Method one is for when an in-place sorting algorithm
+        was used. Method two is for when an out-of-place soritng algorithm was used.
+
+        An in-place algorithm will result in self.swaps being filled with the actual swaps made
+        to move pixels into the correct position. In this case we simply replicate these swaps
+        to show what happened when sorting the image. Swaps are captured as tuples of
+        (pixel_1_pos, pixel_2_pos). We use this type checking to determine which algorithm was
+        used.
+
+        An out-of-place algorithm will result in self.swaps containg copies of the array taken
+        after each pass. To visualise this we simply slowly replace the current array with elements
+        from the snapshot of the array.
+        """
+
         if not self.swaps:
             self.sort(sort_method)
 
         num_frames -= 1
         frames = [self._replace_with_pixels()]
 
-        if type(self.swaps[0][0]) is tuple:             # If an in place algorithm was used
-            swap_num = 0                                # Track what swap we are on
+        # Determine if an in-place sorting algorithm was used
+        if type(self.swaps[0][0]) is tuple:
+            swap_num = 0
             swap_step = self.max_swaps // num_frames    # Index needs to be an integer
-            remainder = self.max_swaps % num_frames     # Fidn remainder from the int-division
+            remainder = self.max_swaps % num_frames     # Find remainder from the int-division
 
             while swap_num <= self.max_swaps:
-                if remainder > 0:       # Check if remainder is left over. Add 1 to indexes is there is.
+                if remainder > 0:       # Check if remainder is left over. Add 1 to index if there is.
                     remainder -= 1
                     extra = 1
                 else:
                     extra = 0
 
                 for row in range(self.rows):
-                    self.__in_place_algo_pixel_swap(row, swap_num, swap_num+swap_step+extra)
+                    self.__swap_pixels(row, swap_num, swap_num+swap_step+extra)
                 swap_num += swap_step + extra
                 frames.append(self._replace_with_pixels())
         else:
@@ -97,7 +120,7 @@ class SortingVisualiser:
             remainder = self.max_swaps % num_frames         # Calculate amount lost from rounding
 
             while swap_num < self.max_swaps:
-                if remainder > 0:       # Check if remainder is left over. Add 1 to indexes is there is.
+                if remainder > 0:       # Check if remainder is left over. Add 1 to index if there is.
                     remainder -= 1
                     extra = 1
                 else:
@@ -105,7 +128,7 @@ class SortingVisualiser:
 
                 # Calculate end positions for swapping
                 swap_end = swap_num + swap_step + extra
-                pos_end = len(self.swaps[0][swap_num:swap_end]) # Use length of swap list to find end image of index to ensure same lengths.
+                pos_end = len(self.swaps[0][swap_num:swap_end]) # Use length of swap list to find end index.
                 pos_end = (pos + pos_end) % self.columns        # If index is greater than length of list. Wrap it around.
 
                 for row in range(self.rows):
@@ -119,3 +142,5 @@ class SortingVisualiser:
                 pos = pos_end
                 frames.append(self._replace_with_pixels())
         return frames
+
+
