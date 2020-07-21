@@ -31,6 +31,9 @@ from gradient.utilities import create_pixel_gradient
 
 
 def add_header(image, sorting_method, start_colour, end_colour):
+    """
+    Add label to GIF with the sorting method and gradient colours displayed.
+    """
     draw = ImageDraw.draw(image)
 
     start_text = str(start_colour)
@@ -51,6 +54,9 @@ def add_header(image, sorting_method, start_colour, end_colour):
 
 
 def hex_to_rgb(hex_code):
+    """
+    Convert hex values into RGB.
+    """
     rgb_tuple = []
     hex_code = hex_code.lstrip("#")
     for i in range(0, len(hex_code), 2):
@@ -81,6 +87,9 @@ def nearest_neighbour(image, x_res, y_res):
     return scaled_image
 
 def scale_frames_nn(frames, x_res, y_res):
+    """
+    Apply nearest neighbour scaling to every frame of a GIF and Display progress.
+    """
     scaled_frames = []
     for i in range(len(frames)):
         scaled_frames.append(nearest_neighbour(frames[i], x_res, y_res))
@@ -91,15 +100,15 @@ def scale_frames_nn(frames, x_res, y_res):
 
 if __name__ == "__main__":
     # -------------- Initialise Variables -------------- #
-    USE_IMAGE = False
-    IMAGE_PATH = "img.jpg"
+    USE_IMAGE = False   # Use an image or gradient as input?
+    IMAGE_PATH = "img.jpg"  # Path to image if we use one
 
     COLOUR_1 = "#270561"  # starting colour
     COLOUR_2 = "#c78d28"  # ending colour
     NUM_COLOURS = 128  # total colours in gradient
     GRAPHIC_TYPE = "pixels"  # alternative is "bars"
     COLOUR_SPACE = "LCHab"  # interpolation colour space
-    DIRECTION = False  # Direction of interpolation. True to reverse.
+    DIRECTION = False  # Direction of interpolation. True to reverse
     RANDOM = True  # Randomise the image?
     REVERSE = False  # Reverse the image?
     ALGORITHM = sys.argv[1]  # Algorithm to use
@@ -110,14 +119,15 @@ if __name__ == "__main__":
     FPS = 24  # FPS of GIF
     FRAME_DELAY = 40  # Delay between each GIF frame
 
-    # ---------------- Variable Logic ---------------- #
     TOTAL_FRAMES = FPS * GIF_DURATION
 
+
+    # Load image and turn into numpy array if we are using one as input
     if USE_IMAGE:
-        # ---------------- Load Image ---------------- #
         img = Image.open(IMAGE_PATH)
         pixels = np.array(img)
 
+    # Generate colour gradient used as input to the visualiser
     else:
         # Determine number of vertical colours. 1 vertical colour for bars. > 1 for "pixel" look.  if GRAPHIC_TYPE == "bars":
         if GRAPHIC_TYPE == "bars":
@@ -127,7 +137,6 @@ if __name__ == "__main__":
                 RESCALE_Y / (RESCALE_X / NUM_COLOURS)
             )  # Maintain square pixel dimension during image upscaling.
 
-        # ---------------- Create Gradient ---------------- #
         # Turn input hex string into rgb tuple and create Colour objects.
         start_colour = Colour(*hex_to_rgb(COLOUR_1), scale_rgb=True)
         end_colour = Colour(*hex_to_rgb(COLOUR_2), scale_rgb=True)
@@ -137,15 +146,15 @@ if __name__ == "__main__":
         gradient.blend(NUM_COLOURS, COLOUR_SPACE, reverse_direction=True)
         pixels = create_pixel_gradient(NUM_COLOURS, V_COLOURS, gradient)
 
-        # ---------------- Preview Gradient ----------------- #
-        PREVIEW_GRADIENT = False  # Display gradient and exit if true
+        # Preview gradient and exit program if flag is set
+        PREVIEW_GRADIENT = False
         if PREVIEW_GRADIENT:
             Image.fromarray(nearest_neighbour(pixels, RESCALE_X,
                                               RESCALE_Y)).show()
             sys.exit()
-        # --------------------------------------------------- #
 
-    # Create out file diferectory (if it doesn't exist) and create file name.
+
+    # Create our file diferectory (if it doesn't exist) and create file name.
     path = Path(__file__).resolve().parent.parent / "img" / ALGORITHM
     path.mkdir(parents=True, exist_ok=True)
     path /= datetime.now().strftime("%y-%m-%d_%H-%M-%S.gif")
@@ -153,13 +162,13 @@ if __name__ == "__main__":
     # Sort the image and visualise the swaps made.
     visualiser = SortingVisualiser(pixels, randomise=RANDOM, reverse=REVERSE)
     visualiser.sort(ALGORITHM)
-
-    if visualiser.max_swaps / TOTAL_FRAMES < 1:  # If there are less swaps than frames in the gif, lower frame rate until 1 swap per frame.
+    
+    # If there are less swaps than frames in the gif, lower frame rate until 1 swap per frame
+    if visualiser.max_swaps / TOTAL_FRAMES < 1:
         TOTAL_FRAMES = visualiser.max_swaps
         FRAME_DELAY = GIF_DURATION / TOTAL_FRAMES
         FPS = TOTAL_FRAMES / GIF_DURATION
-    frames = visualiser.visualise(
-        TOTAL_FRAMES, ALGORITHM)  # Generate frames of the visualisation
+        frames = visualiser.visualise(TOTAL_FRAMES, ALGORITHM)
 
     # Scale to desired resolution and save
     if SCALE:
