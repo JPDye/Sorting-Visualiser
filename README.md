@@ -1,25 +1,28 @@
 # Sorting Visualiser
 Visualise the sorting of randomised colour gradients.
 
-# Usage
+## Usage
+```shell
+python ./main <algo_name>
+```
+Replace <algo_name> with one of the following:
+- bubble_sort
+- selection_sort
+- insertion_sort
+- quick_sort
+- heap_sort
+- merge_sort
+- radix_sort_lsd
+ 
 
-> python ./main <algo_name>
-
-choose from:
-  - bubble_sort
-  - selection_sort
-  - insertion_sort
-  - quick_sort
-  - heap_sort
-  - merge_sort
-  - radix_sort_lsd
-  
-
-If choosing to use merge_sort set number of colours to a power of 2 for best looking results. 
+If choosing to use merge_sort set number of colours to a power of 2 for best looking results.
 If using radix_sort set number of colours to multiple of 100 for best looking result
-  
-Variables within main.py control other attributes of the visualisation. Will create CLI for this at a later date.
+ 
+### To Do
+- Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
+- Add ColCon and GradientCreator to GitHub. Program relies on these tools to create perceptually unfirom gradients. Cleaning code up first.
+- Rewrite '__replace_with_integers()' function to allow passing images as well as gradients.
 
-Program relies on two other modules of mine - ColCon (Colour Converter) and Gradient (Gradient Creator). These modules have not been uploaded to GitHub yet, I'm cleaning up the code slightly first. 
 
-Project is still usable, you just wont be able to create perceptually uniform gradients for the visualiser. Just comment out lines 89-109 in main.py and feed a numpy array of pixels into the visualiser on line 112 in place of the pixels variable.
+> Running without ColCon and GradientCreator
+Project is still usable, you just wont be able to create perceptually uniform gradients for the visualiser. Just comment out lines 91-116 in main.py and feed a numpy array of pixels into the visualiser on line 112 in place of the pixels variable.
