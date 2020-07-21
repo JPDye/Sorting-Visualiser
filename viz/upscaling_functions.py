@@ -39,28 +39,3 @@ def scale_frames_nn(frames, x_res, y_res):
         progress_bar("Scaling GIF:\t ", i, len(frames))
     progress_complete("Scaling GIF\t ")
     return scaled_frames
-
-
-if __name__ == "__main__":
-    import numpy as np
-    from PIL import Image
-
-    from colcon.colour import Colour
-    from axial.gradient_class import Gradient
-    from axial.utilities import create_pixel_gradient
-
-    colour_1 = (Colour(255, 0, 0, scale_rgb=True))
-    colour_2 = (Colour(0, 0, 255, scale_rgb=True))
-
-    gradient = Gradient(colour_1, colour_2)
-    gradient.blend(10, "HSV", reverse_direction=False)
-
-    pixels = create_pixel_gradient(10, 10, gradient)
-    for i in range(pixels.shape[0]):
-        np.random.shuffle(pixels[i, :, :])
-
-    # PIL scaling
-    Image.fromarray(pixels).resize((600, 600), Image.NEAREST).show()
-
-    # My Scaling
-    Image.fromarray(nearest_neighbour(pixels, 600, 300)).show()
