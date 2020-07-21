@@ -1,6 +1,11 @@
 # Sorting Visualiser
 Visualise the sorting of randomised colour gradients.
 
+![Alt Text](https://github.com/JPDye/sorting-visualiser/blob/master/img/example/merge_sort_1.gif)
+
+
+
+
 ## Usage
 ```shell
 python ./main <algo_name>
