@@ -127,7 +127,6 @@ class SortingVisualiser:
             remainder = self.max_swaps % num_frames         # Calculate amount lost from rounding
 
             while swap_num < self.max_swaps:
-                print(swap_num, self.max_swaps)
                 if remainder > 0:       # Check if remainder is left over. Add 1 to index if there is.
                     remainder -= 1
                     extra = 1
@@ -149,7 +148,7 @@ class SortingVisualiser:
                 swap_num += swap_step + extra
                 pos = pos_end
                 frames.append(self._replace_with_pixels())
-                progress_bar("Creating GIF:\t", self.max_swaps / swap_num, self.max_swaps)
+                progress_bar("Creating GIF:\t", swap_num, self.max_swaps)
             progress_complete("Creating Gif:\t")
         return frames
 

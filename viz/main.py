@@ -46,43 +46,19 @@ if __name__ == "__main__":
     RANDOM = True  # Randomise the image?
     REVERSE = False  # Reverse the image?
     ALGORITHM = sys.argv[1]  # Algorithm to use
-    GIF_DURATION = 6  # Duration of GIF
+    GIF_DURATION = 10  # Duration of GIF
     SCALE = False  # Does image need to be upscaled?
     RESCALE_X = 600  # x res of GIF
     RESCALE_Y = 600  # y res of GIF
     FPS = 24  # FPS of GIF
-    FRAME_DELAY = 40  # Delay between each GIF frame
+    FRAME_DELAY = 1 / FPS  # Delay between each GIF frame
     TOTAL_FRAMES = FPS * GIF_DURATION
 
     # Load image and turn into numpy array if we are using one as input
     if USE_IMAGE:
-        # --- Testing
-        # Create random pixel grid to simulate image input
-        # pixels = np.zeros((20, 20, 3), dtype="uint8")
-
-        # colours = [
-        # (255, 0, 0),
-        # (0, 255, 0),
-        # (0, 0, 255),
-        # (255, 255, 0),
-        # (255, 0, 255),
-        # (0, 255, 255),
-        # (0, 0, 0),
-        # (255, 255, 255)
-        # ]
-        # create two colour grid to determine which function causes the error.
-        # __replace_with_integers or __replace_with_pixels
-        # for i in range(pixels.shape[0]):
-        # for j in range(pixels.shape[1]):
-        # pixels[i, j, :] = random.choice(colours)
-
-        # --- Load Image
-        img_path = Path(
-            __file__).resolve().parent.parent / "img" / "input" / IMAGE_NAME
+        img_path = Path(__file__).resolve().parent.parent / "img" / "input" / IMAGE_NAME
         img = Image.open(img_path)
         pixels = np.array(img)
-        img = Image.fromarray(pixels).resize((RESCALE_X, RESCALE_Y), Image.NEAREST)
-        img.show()
 
     # Generate colour gradient used as input to the visualiser
     else:
@@ -121,7 +97,6 @@ if __name__ == "__main__":
 
     # If there are less swaps than frames in the gif, lower frame rate until 1 swap per frame
     if visualiser.max_swaps / TOTAL_FRAMES < 1:
-        print(visualiser.max_swaps)
         TOTAL_FRAMES = visualiser.max_swaps
         FRAME_DELAY = GIF_DURATION / TOTAL_FRAMES
         FPS = TOTAL_FRAMES / GIF_DURATION
@@ -130,4 +105,4 @@ if __name__ == "__main__":
     # Scale to desired resolution and save
     if SCALE:
         frames = scale_frames_nn(frames, RESCALE_X, RESCALE_Y)
-    imageio.mimsave(path, frames)
+    imageio.mimsave(path, frames, duration=FRAME_DELAY)
