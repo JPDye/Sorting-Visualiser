@@ -279,9 +279,4 @@ def heap_sort(array):
 if __name__ == "__main__":
     import random
     x = [random.randint(0, 100) for i in range(18)]
-
-    y = [i for i in range(0, 20, 2)]
-    z = [j for j in range(1, 20, 2)]
-if __name__ == "__main__":
-    y = [5, 4, 3, 2, 1]
-    print(heap_sort(y))
+    print(heap_sort(x))
