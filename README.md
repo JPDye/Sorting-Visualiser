@@ -1,8 +1,15 @@
 # Sorting Visualiser
 Visualise the sorting of randomised colour gradients.
 
-![Alt Text](https://github.com/JPDye/sorting-visualiser/blob/master/img/example/merge_sort_1.gif)
 
+<p align="center">
+  <img src="https://github.com/JPDye/sorting-visualiser/blob/master/img/example/merge_sort_1.gif" />
+</p>
+
+
+<p align="center">
+  <img src="https://github.com/JPDye/sorting-visualiser/blob/master/img/example/sn_mid_radix.gif" />
+</p>
 
 
 
