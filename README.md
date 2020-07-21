@@ -14,12 +14,9 @@ Replace <algo_name> with one of the following:
 - merge_sort (set NUM_COLOURS to power of 2 for best results)
 - radix_sort_lsd (set NUM_COLOURS to multiple of 100 for best results)
 
+Two required modules - ColCon and GradientCreator - have not been uploaded to GitHub yet. Project is still usable. Just Comment out lines 91-116 in main.py and feed a numpy array of pixels in the visualiser on line 112 in place of the pixels variable.
+
 ### To Do
 - Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
 - Add ColCon and GradientCreator to GitHub. Program relies on these tools to create perceptually unfirom gradients. Cleaning code up first.
 - Rewrite '__replace_with_integers()' function to allow passing images as well as gradients.
-
-
-> Running without ColCon and GradientCreator
-
-Project is still usable, you just wont be able to create perceptually uniform gradients for the visualiser. Just comment out lines 91-116 in main.py and feed a numpy array of pixels into the visualiser on line 112 in place of the pixels variable.
