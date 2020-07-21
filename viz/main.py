@@ -21,6 +21,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+import random
+
 import imageio
 import numpy as np
 from PIL import Image, ImageDraw
@@ -101,8 +103,8 @@ def scale_frames_nn(frames, x_res, y_res):
 
 if __name__ == "__main__":
     # -------------- Initialise Variables -------------- #
-    USE_IMAGE = False   # Use an image or gradient as input?
-    IMAGE_PATH = "img.jpg"  # Path to image if we use one
+    USE_IMAGE = True   # Use an image or gradient as input?
+    IMAGE_NAME = "grid.ppm"  # Path to image if we use one
 
     COLOUR_1 = "#270561"  # starting colour
     COLOUR_2 = "#c78d28"  # ending colour
@@ -114,9 +116,9 @@ if __name__ == "__main__":
     REVERSE = False  # Reverse the image?
     ALGORITHM = sys.argv[1]  # Algorithm to use
     GIF_DURATION = 6  # Duration of GIF
-    SCALE = True
-    RESCALE_X = 600  # x res of GIF
-    RESCALE_Y = 200  # y res of GIF
+    SCALE = True        # Does image need to be upscaled?
+    RESCALE_X = 200  # x res of GIF
+    RESCALE_Y = 100  # y res of GIF
     FPS = 24  # FPS of GIF
     FRAME_DELAY = 40  # Delay between each GIF frame
 
@@ -125,8 +127,31 @@ if __name__ == "__main__":
 
     # Load image and turn into numpy array if we are using one as input
     if USE_IMAGE:
-        img = Image.open(IMAGE_PATH)
-        pixels = np.array(img)
+        # --- Testing
+        pixels = np.zeros((10, 20, 3), dtype="uint8")
+
+        colours = [
+                (255, 0, 0),
+                (0, 255, 0),
+                (0, 0, 255),
+                (255, 255, 0),
+                (255, 0, 255),
+                (0, 255, 255),
+                (0, 0, 0),
+                (255, 255, 255)
+                ]
+
+        for i in range(pixels.shape[0]):
+            for j in range(pixels.shape[1]):
+                pixels[i, j, :] = random.choice(colours)
+
+        img = Image.fromarray(pixels).resize((600, 400), Image.NEAREST)
+        img.show()
+
+        # --- Load Image
+        # img_path = Path(__file__).resolve().parent.parent / "img" / "input" / IMAGE_NAME
+        # img = Image.open(img_path)
+        # pixels = np.array(img)
 
     # Generate colour gradient used as input to the visualiser
     else:
@@ -173,4 +198,5 @@ if __name__ == "__main__":
     # Scale to desired resolution and save
     if SCALE:
         frames = scale_frames_nn(frames, RESCALE_X, RESCALE_Y)
+    Image.fromarray(frames[-1]).resize((600, 400), Image.NEAREST).show()
     imageio.mimsave(path, frames)
