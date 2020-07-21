@@ -28,6 +28,7 @@ from PIL import Image, ImageDraw
 from colcon.colour import Colour
 from gradient.gradient_class import Gradient
 from gradient.utilities import create_pixel_gradient
+from viz.visualiser import SortingVisualiser
 
 
 def add_header(image, sorting_method, start_colour, end_colour):
@@ -149,8 +150,7 @@ if __name__ == "__main__":
         # Preview gradient and exit program if flag is set
         PREVIEW_GRADIENT = False
         if PREVIEW_GRADIENT:
-            Image.fromarray(nearest_neighbour(pixels, RESCALE_X,
-                                              RESCALE_Y)).show()
+            Image.fromarray(nearest_neighbour(pixels, RESCALE_X, RESCALE_Y)).show()
             sys.exit()
 
 
@@ -162,13 +162,13 @@ if __name__ == "__main__":
     # Sort the image and visualise the swaps made.
     visualiser = SortingVisualiser(pixels, randomise=RANDOM, reverse=REVERSE)
     visualiser.sort(ALGORITHM)
-    
+
     # If there are less swaps than frames in the gif, lower frame rate until 1 swap per frame
     if visualiser.max_swaps / TOTAL_FRAMES < 1:
         TOTAL_FRAMES = visualiser.max_swaps
         FRAME_DELAY = GIF_DURATION / TOTAL_FRAMES
         FPS = TOTAL_FRAMES / GIF_DURATION
-        frames = visualiser.visualise(TOTAL_FRAMES, ALGORITHM)
+    frames = visualiser.visualise(TOTAL_FRAMES, ALGORITHM)
 
     # Scale to desired resolution and save
     if SCALE:
