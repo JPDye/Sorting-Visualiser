@@ -15,6 +15,39 @@ def bubble_sort(array):
                 num_swaps += 1
     return swaps
 
+def cocktail_sort(array):
+    start = 0
+    end = len(array) - 1
+
+    swaps = []
+    swapped = True
+
+    while swapped:
+        swapped = False
+
+        for i in range(start, end):
+            if array[i] > array[i+1]:
+                array[i], array[i+1] = array[i+1], array[i]
+                swaps.append((i, i+1))
+                swapped = True
+
+        if not swapped:
+            break
+
+        swapped = False
+        end -= 1
+
+        for i in range(end, start, -1):
+            if array[i] < array[i-1]:
+                array[i], array[i-1] = array[i-1], array[i]
+                swaps.append((i, i-1))
+                swapped = True
+        start += 1
+    return swaps
+
+if __name__ == "__main__":
+    x = [9, 8, 7, 6, 5, 4, 3, 2, 1]
+    print(cocktailSort(x))
 
 # --- Selection Sort Algorithm
 def selection_sort(array):

@@ -20,6 +20,7 @@ class SortingVisualiser:
         self.max_swaps = 0
         self.sorting_methods = {
             "bubble_sort": algos.bubble_sort,
+            "cocktail_sort": algos.cocktail_sort,
             "selection_sort": algos.selection_sort,
             "insertion_sort": algos.insertion_sort,
             "quick_sort": algos.quick_sort,
