@@ -32,10 +32,10 @@ from src.visualise.colourmaps import  generate_gradient, colourmaps
 if __name__ == "__main__":
     # -- Set USE_IMAGE to True if you want to sort an image. False if you want to use a gradient.
     USE_IMAGE = False  # Use an image or gradient as input?
-    IMAGE_NAME = "starry_night.jpg"  # Image name. Place image in ../img/input
+    IMAGE_NAME = "starry_night_mid.jpg"  # Image name. Place image in ../img/input
 
     # -- If using a gradient, set gradient settings.
-    COLOUR_MAP = "custom"   # choose from "custom", "viridis", "inferno", "plasma" and "magma"
+    COLOUR_MAP = "viridis"   # choose from "custom", "viridis", "inferno", "plasma" and "magma"
 
     COLOUR_1 = "#270561"  # starting colour for custom gradients
     COLOUR_2 = "#c78d28"  # ending colour for custom gradients
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # COLOUR_1 = "#65c268"
     # COLOUR_2 = "#8159de"
 
-    NUM_COLOURS = 128  # total colours in gradient
+    NUM_COLOURS = 200  # total colours in gradient
     GRAPHIC_TYPE = "pixels"  # alternative is "bars"
     COLOUR_SPACE = "LCHab"  # interpolation colour space for custom gradients
     DIRECTION = True  # Direction of interpolation. True to reverse. Only for custom gradients.
@@ -54,10 +54,10 @@ if __name__ == "__main__":
     RANDOM = True  # Randomise the image?
     REVERSE = False  # Reverse the image?
     ALGORITHM = sys.argv[1]  # Algorithm to use
-    GIF_DURATION = 5  # Duration of GIF
+    GIF_DURATION = 15  # Duration of GIF
     SCALE = True  # Does image need to be upscaled?
     RESCALE_X = 600  # x res of GIF
-    RESCALE_Y = 200  # y res of GIF
+    RESCALE_Y = 600  # y res of GIF
     FPS = 16  # FPS of GIF
     FRAME_DELAY = 1 / FPS  # Delay between each GIF frame
     TOTAL_FRAMES = FPS * GIF_DURATION

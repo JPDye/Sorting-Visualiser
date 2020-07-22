@@ -25,8 +25,10 @@ class SortingVisualiser:
             "insertion_sort": algos.insertion_sort,
             "quick_sort": algos.quick_sort,
             "heap_sort": algos.heap_sort,
-            "merge_sort": algos.iterative_merge_sort,
+            "merge_sort": algos.it_merge_sort,
             "radix_sort_lsd": algos.radix_sort_lsd,
+            "counting_sort": algos.counting_sort,
+            "my_sort": algos.my_sort
         }
 
     def __replace_with_integers(self):
@@ -121,11 +123,11 @@ class SortingVisualiser:
                 swap_num += swap_step + extra
                 frames.append(self._replace_with_pixels())
                 progress_bar("Creating GIF:\t", swap_num / self.max_swaps, self.max_swaps)
-            progress_complete("Creating Gif:\t")
+            progress_complete("Creating GIF:\t")
         else:
             pos = 0
             swap_num = 0
-            swap_step = round(self.max_swaps / num_frames)  # Round as index needs to be an integer
+            swap_step = int(self.max_swaps / num_frames)  # Round as index needs to be an integer
             remainder = self.max_swaps % num_frames         # Calculate amount lost from rounding
 
             while swap_num < self.max_swaps:

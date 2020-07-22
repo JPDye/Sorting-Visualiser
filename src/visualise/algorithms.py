@@ -45,10 +45,6 @@ def cocktail_sort(array):
         start += 1
     return swaps
 
-if __name__ == "__main__":
-    x = [9, 8, 7, 6, 5, 4, 3, 2, 1]
-    print(cocktailSort(x))
-
 # --- Selection Sort Algorithm
 def selection_sort(array):
     swaps = []
@@ -79,8 +75,11 @@ def insertion_sort(array):
 def quick_sort(array):
     return _quick_sort(array, 0, len(array) - 1)
 
-def _quick_sort(array, start, end):
+def _quick_sort(array, start=0, end=None):
     swaps = []
+
+    if not end:
+        end = len(array) - 1
 
     if start >= end:
         return swaps
@@ -118,7 +117,7 @@ def merge(l_array, r_array):
     return combined
 
 
-def iterative_merge_sort(array):
+def it_merge_sort(array):
     arr = array.copy()
 
     pos = 0
@@ -180,16 +179,16 @@ def radix_sort_helper(array, exp):
         i -= 1
     return output
 
-# --- Counting sort Algorithm - Helper for Radix Sort
+# --- Counting sort Algorithm
 def counting_sort(array, max_val=None):
     if not max_val:
         max_val = max(array)
 
     output = []
-    counter = [0]  * (max_val + 1)
+    counter = [0]  * int((max_val + 1))
 
     for num in array:
-        counter[num] += 1               # Track how many times each number occurs, using the number as index for the counter
+        counter[int(num)] += 1               # Track how many times each number occurs, using the number as index for the counter
 
     for num, count in enumerate(counter):
         output.extend([num] * count)    # Append a number onto output list, count number of times.
@@ -310,8 +309,13 @@ def heap_sort(array):
     return heap.heap_sort()[1]
 
 
+def my_sort(array):
+    sorted_array = [None] * len(array)
+    for num in array:
+        sorted_array[int(num)] = num
+    return sorted_array
+
 
 if __name__ == "__main__":
-    import random
-    x = [random.randint(0, 100) for i in range(18)]
-    print(heap_sort(x))
+    x = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+    print(mine(x))
