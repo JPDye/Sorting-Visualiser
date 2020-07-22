@@ -17,18 +17,30 @@ Visualise the sorting of randomised colour gradients.
 ```shell
 python ./main <algo_name>
 ```
-Replace <algo_name> with one of the following:
+### Algorithms:
 - bubble_sort
 - selection_sort
 - insertion_sort
 - quick_sort
 - heap_sort
-- merge_sort (set NUM_COLOURS to power of 2 for best results)
-- radix_sort_lsd (set NUM_COLOURS to multiple of 100 for best results)
+- merge_sort
+- radix_sort_lsd
 
-Program can either create a gradient using two of my own modules - ColCon and GradientCreator - or take an image as input.
+For best results use merge_sort with the NUM_COLOURS variable set to a power of 2.
 
-Place Image in img/input and set the USE_IMAGE flag to True and the IMAGE_NAME variable to the name of the image.
+For best results use radix_sort_lsd with the NUM_COLOURS variable set to a multiple of 100
+
+
+### Input:
+- viridis
+- plasma
+- magma
+- inferno
+- custom
+- image
+
+For custom gradient set COLOUR_1, COLOUR_2 and COLOUR_SPACE variables. DIRECTION variable changes direction of interpolation.
+For an image, place an image in the /img/input folder, set USE_IMAGE flag to True and the IMAGE_NAME vairable to name of image.
 
 ### To Do
 - Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
