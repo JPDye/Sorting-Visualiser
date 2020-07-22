@@ -1,31 +1,15 @@
 # Sorting Visualiser
 
 Create colour gradients in different colour spaces and then feed them into a sorting visualiser.
+<p align="center">
+  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/example/viridis_1.gif" />
+</p>
 
 <p align="center">
   <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/gradients/all_colour_spaces.png" />
 </p>
 
-<p align="center">
-  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/example/custom_1.gif" />
-</p>
 
-<p align="center">
-  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/example/viridis_1.gif" />
-</p>
-
-
-<p align="center">
-  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/example/magma_1.gif" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/example/inferno_1.gif" />
-</p>
-
-<p align="center">
-  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/example/plasma_1.gif" />
-</p>
 
 
 ## Usage
