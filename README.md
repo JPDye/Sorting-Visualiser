@@ -38,7 +38,10 @@ For best results use radix_sort_lsd with the NUM_COLOURS variable set to a multi
 - custom
 - image
 
+Set COLOUR_MAP to one of these to feed a gradient into the visualiser.
+
 For custom gradient set COLOUR_1, COLOUR_2 and COLOUR_SPACE variables. DIRECTION variable changes direction of interpolation.
+
 For an image, place an image in the /img/input folder, set USE_IMAGE flag to True and the IMAGE_NAME vairable to name of image.
 
 ### To Do
