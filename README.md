@@ -30,7 +30,7 @@ For best results use merge_sort with the NUM_COLOURS variable set to a power of 
 For best results use radix_sort_lsd with the NUM_COLOURS variable set to a multiple of 100
 
 
-### Input:
+### Gradients:
 - viridis
 - plasma
 - magma
