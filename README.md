@@ -44,7 +44,7 @@ For custom gradient set COLOUR_1, COLOUR_2 and COLOUR_SPACE variables. DIRECTION
 
 For an image, place an image in the /img/input folder, set USE_IMAGE flag to True and the IMAGE_NAME vairable to name of image.
 
-### To Do
+## To Do
 - Create CLI.
 - Change QuickSort to iterative QuickSort. 
 - Add BogoSort, CocktailSort, TimSort and more...
