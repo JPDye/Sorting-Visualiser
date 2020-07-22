@@ -1,15 +1,14 @@
 # Sorting Visualiser
-Visualise the sorting of randomised colour gradients.
 
-
+Create colour gradients in different colour spaces and then feed them into a sorting visualiser.
 <p align="center">
-  <img src="https://github.com/JPDye/sorting-visualiser/blob/master/img/example/merge_sort_1.gif" />
+  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/example/viridis_1.gif" />
 </p>
 
-
 <p align="center">
-  <img src="https://github.com/JPDye/sorting-visualiser/blob/master/img/example/sn_mid_radix.gif" />
+  <img src="https://github.com/JPDye/sorting-visualiser/blob/custom_gradients/img/gradients/all_colour_spaces.png" />
 </p>
+
 
 
 
@@ -31,7 +30,7 @@ For best results use merge_sort with the NUM_COLOURS variable set to a power of 
 For best results use radix_sort_lsd with the NUM_COLOURS variable set to a multiple of 100
 
 
-### Input:
+### Gradients:
 - viridis
 - plasma
 - magma
@@ -39,11 +38,13 @@ For best results use radix_sort_lsd with the NUM_COLOURS variable set to a multi
 - custom
 - image
 
+Set COLOUR_MAP to one of these to feed a gradient into the visualiser.
+
 For custom gradient set COLOUR_1, COLOUR_2 and COLOUR_SPACE variables. DIRECTION variable changes direction of interpolation.
+
 For an image, place an image in the /img/input folder, set USE_IMAGE flag to True and the IMAGE_NAME vairable to name of image.
 
-### To Do
-- Create CLI or command line argumnets for variables within main.py that control visualisation attributes.
-- Add ColCon and GradientCreator to GitHub. Program relies on these tools to create perceptually unfirom gradients.
-- Provide matplotlib gradients, so that users dont have to rely on my modules. Virdis is priority for colour blind support.
+## To Do
+- Create CLI.
 - Change QuickSort to iterative QuickSort. 
+- Add BogoSort, CocktailSort, TimSort and more...
