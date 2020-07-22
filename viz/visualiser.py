@@ -149,7 +149,7 @@ class SortingVisualiser:
                 pos = pos_end
                 frames.append(self._replace_with_pixels())
                 progress_bar("Creating GIF:\t", swap_num, self.max_swaps)
-            progress_complete("Creating Gif:\t")
+            progress_complete("Creating GIF:\t")
         return frames
 
 
