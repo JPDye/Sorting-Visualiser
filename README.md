@@ -47,4 +47,4 @@ For an image, place an image in the /img/input folder, set USE_IMAGE flag to Tru
 ## To Do
 - Create CLI.
 - Change QuickSort to iterative QuickSort. 
-- Add BogoSort, CocktailSort, TimSort and more...
+
