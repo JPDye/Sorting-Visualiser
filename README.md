@@ -24,6 +24,8 @@ python ./main <algo_name>
 - heap_sort
 - merge_sort
 - radix_sort_lsd
+- counting_sort
+- linear_sort
 
 For best results use merge_sort with the NUM_COLOURS variable set to a power of 2.
 
