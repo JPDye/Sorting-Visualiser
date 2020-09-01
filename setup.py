@@ -4,7 +4,7 @@ setup(
         name="viz",
         version="0.1",
         packages=find_packages(),
-        install_requires=["numpy", "Pillow",  "imagio", "gradient", "colcon"],
+        install_requires=["numpy", "Pillow",  "imagio"],
 
         author="Joseph Dye",
         author_email="jpzh.dye@gmail.com",
